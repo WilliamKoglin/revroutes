@@ -1,0 +1,41 @@
+{
+  "cat_cols": [
+    "Reporting_Airline",
+    "Origin",
+    "Dest"
+  ],
+  "num_cols": [
+    "Month",
+    "DayOfWeek",
+    "DayofMonth",
+    "DepHour"
+  ],
+  "target": "ArrDelay",
+  "vocab_sizes": {
+    "Reporting_Airline": 14,
+    "Origin": 358,
+    "Dest": 358
+  },
+  "emb_dim": 8,
+  "num_numeric": 4,
+  "scaler": {
+    "Month": {
+      "mean": 4.1199118106862755,
+      "std": 1.9768378466816434
+    },
+    "DayOfWeek": {
+      "mean": 4.0028645024935186,
+      "std": 1.9892066987835273
+    },
+    "DayofMonth": {
+      "mean": 15.655791728250875,
+      "std": 8.765507593550442
+    },
+    "DepHour": {
+      "mean": 12.974862433824544,
+      "std": 4.9007631597479175
+    }
+  },
+  "buffer_margin": 51.176109313964844,
+  "buffer_percentile": 90
+}
