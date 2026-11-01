@@ -1,0 +1,38 @@
+:root {
+  --maroon: #500000;
+  --maroon-dark: #310000;
+  --red: #741a2b;
+  --cream: #f5eded;
+  --paper: #fffafa;
+  --ink: #2e171b;
+  --muted: #79666a;
+  --line: #e8dadd;
+  --gold: #8e3c4a;
+}
+
+body { background: var(--cream); }
+.topbar, .search-card, .flight-card { background-color: var(--paper); }
+.hero { background-color: var(--maroon); }
+.hero h1 em { color: #e8c4ca; }
+.how h2 em { color: #762231; }
+.eyebrow { color: #87404b; }
+.hero .eyebrow { color: #e3b8c0; }
+.brand, .airport-input > b, .price, .card-heading h2, .leg-heading { color: var(--maroon); }
+.direct-tag, .buffer-pill { color: #641a28; background-color: #f1e1e4; }
+.plan-number, .benefit > span { color: #7b2635; }
+.prediction { color: #632332; background-color: #f5e8ea; }
+.leave-time { background-color: #f2e5e7; }
+.leave-time strong { color: var(--maroon); }
+.flight-card, .plan-card { border-color: #e7d5d9; }
+.airport-label small { color: #edc9cf; }
+.plan-message { border-color: #d9bfc5; background-color: #fff8f9; }
+.plan-head h3, .time { color: #481019; }
+.status.error, .error-message { color: #731a2b; background-color: #f8e9ec; }
+.usage-warning { color: #5b111f; background: #f0dce0; border: 1px solid #dfb9c1; border-radius: 8px; padding: 12px 15px; }
+.mapped-airport { margin: 14px 26px 0; color: #6c5358; font-size: 11px; }
+.mapped-airport strong { color: var(--maroon); }
+.connection-risk { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0; padding: 11px 13px; color: #6d1c00; background: #fff0df; border: 1px solid #edbd8f; border-radius: 8px; }
+.connection-risk .risk-icon { flex: 0 0 auto; font-size: 18px; line-height: 1; }
+.connection-risk strong { font-size: 11px; letter-spacing: .08em; }
+.connection-risk p { margin: 4px 0 0; font-size: 12px; line-height: 1.45; }
+@media(max-width: 600px) { .mapped-airport { margin-left: 0; margin-right: 0; } }

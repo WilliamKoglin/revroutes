@@ -1,0 +1,1053 @@
+{
+  "search_metadata": {
+    "id": "6ad555db0257bb192509d8f8",
+    "status": "Success",
+    "json_endpoint": "https://serpapi.com/searches/8duvI9qQQSTJpqW3nzHqd41wpC59OIwQVOaMDoVg5TI/6ad555db0257bb192509d8f8.json",
+    "markdown_endpoint": "https://serpapi.com/searches/8duvI9qQQSTJpqW3nzHqd41wpC59OIwQVOaMDoVg5TI/6ad555db0257bb192509d8f8.md",
+    "created_at": "2026-10-18 23:27:23 UTC",
+    "processed_at": "2026-10-18 23:27:23 UTC",
+    "google_flights_url": "https://www.google.com/travel/flights?hl=en&gl=us&curr=USD&tfs=CBwQAhogEgoyMDI2LTEyLTE1KABqBwgBEgNJQUhyBwgBEgNERldAAUgBcAGYAQI&tfu=EgIIAQ",
+    "raw_html_file": "https://serpapi.com/searches/8duvI9qQQSTJpqW3nzHqd41wpC59OIwQVOaMDoVg5TI/6ad555db0257bb192509d8f8.html",
+    "prettify_html_file": "https://serpapi.com/searches/8duvI9qQQSTJpqW3nzHqd41wpC59OIwQVOaMDoVg5TI/6ad555db0257bb192509d8f8.prettify",
+    "total_time_taken": 3.29
+  },
+  "search_parameters": {
+    "engine": "google_flights",
+    "hl": "en",
+    "gl": "us",
+    "type": "2",
+    "departure_id": "IAH",
+    "arrival_id": "DFW",
+    "outbound_date": "2026-12-15",
+    "stops": 1,
+    "currency": "USD"
+  },
+  "best_flights": [
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 10:40"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 12:06"
+          },
+          "duration": 86,
+          "airplane": "Canadair RJ 700",
+          "airline": "American",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+          "travel_class": "Economy",
+          "flight_number": "AA 5490",
+          "legroom": "31 in",
+          "extensions": [
+            "Average legroom (31 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 98 kg"
+          ],
+          "plane_and_crew_by": "PSA Airlines as American Eagle"
+        }
+      ],
+      "total_duration": 86,
+      "carbon_emissions": {
+        "this_flight": 98000,
+        "typical_for_this_route": 78000,
+        "difference_percent": 26
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pCUVRVME9UQWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIkFBIiwiNTQ5MCJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 12:13"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 13:41"
+          },
+          "duration": 88,
+          "airplane": "Airbus A319",
+          "airline": "American",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+          "travel_class": "Economy",
+          "flight_number": "AA 3039",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Free Wi-Fi",
+            "In-seat power outlet",
+            "Stream media to your device",
+            "Carbon emissions estimate: 75 kg"
+          ]
+        }
+      ],
+      "total_duration": 88,
+      "carbon_emissions": {
+        "this_flight": 75000,
+        "typical_for_this_route": 78000,
+        "difference_percent": -4
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pCUVRNd016a2FDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIkFBIiwiMzAzOSJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 14:01"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 15:32"
+          },
+          "duration": 91,
+          "airplane": "Embraer 175",
+          "airline": "American",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+          "travel_class": "Economy",
+          "flight_number": "AA 3911",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Free Wi-Fi",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 83 kg"
+          ],
+          "plane_and_crew_by": "Envoy Air as American Eagle"
+        }
+      ],
+      "total_duration": 91,
+      "carbon_emissions": {
+        "this_flight": 83000,
+        "typical_for_this_route": 78000,
+        "difference_percent": 6
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pCUVRNNU1URWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIkFBIiwiMzkxMSJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 14:40"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 16:07"
+          },
+          "duration": 87,
+          "airplane": "Airbus A320",
+          "airline": "United",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+          "travel_class": "Economy",
+          "flight_number": "UA 1388",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 72 kg"
+          ]
+        }
+      ],
+      "total_duration": 87,
+      "carbon_emissions": {
+        "this_flight": 72000,
+        "typical_for_this_route": 78000,
+        "difference_percent": -8
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pWUVRFek9EZ2FDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIlVBIiwiMTM4OCJdXV0="
+    }
+  ],
+  "other_flights": [
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 05:00"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 06:20"
+          },
+          "duration": 80,
+          "airplane": "Canadair RJ 700",
+          "airline": "American",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+          "travel_class": "Economy",
+          "flight_number": "AA 5357",
+          "legroom": "31 in",
+          "extensions": [
+            "Average legroom (31 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 98 kg"
+          ],
+          "plane_and_crew_by": "PSA Airlines as American Eagle"
+        }
+      ],
+      "total_duration": 80,
+      "carbon_emissions": {
+        "this_flight": 98000,
+        "typical_for_this_route": 78000,
+        "difference_percent": 26
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pCUVRVek5UY2FDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIkFBIiwiNTM1NyJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 06:00"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 07:33"
+          },
+          "duration": 93,
+          "airplane": "Boeing 737",
+          "airline": "American",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+          "travel_class": "Economy",
+          "flight_number": "AA 2551",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Free Wi-Fi",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 61 kg"
+          ]
+        }
+      ],
+      "total_duration": 93,
+      "carbon_emissions": {
+        "this_flight": 62000,
+        "typical_for_this_route": 78000,
+        "difference_percent": -21
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pCUVRJMU5URWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIkFBIiwiMjU1MSJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 07:00"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 08:34"
+          },
+          "duration": 94,
+          "airplane": "Airbus A321",
+          "airline": "American",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+          "travel_class": "Economy",
+          "flight_number": "AA 3152",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Free Wi-Fi",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 67 kg"
+          ]
+        }
+      ],
+      "total_duration": 94,
+      "carbon_emissions": {
+        "this_flight": 68000,
+        "typical_for_this_route": 78000,
+        "difference_percent": -13
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pCUVRNeE5USWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIkFBIiwiMzE1MiJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 07:20"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 08:45"
+          },
+          "duration": 85,
+          "airplane": "Airbus A320",
+          "airline": "United",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+          "travel_class": "Economy",
+          "flight_number": "UA 358",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 72 kg"
+          ]
+        }
+      ],
+      "total_duration": 85,
+      "carbon_emissions": {
+        "this_flight": 72000,
+        "typical_for_this_route": 78000,
+        "difference_percent": -8
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1ZWUVRNMU9Cb0xDUHlUQVJBQ0dnTlZVMFE0SEhEOGt3RT0iLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIlVBIiwiMzU4Il1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 08:52"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 10:23"
+          },
+          "duration": 91,
+          "airplane": "Embraer 175",
+          "airline": "American",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+          "travel_class": "Economy",
+          "flight_number": "AA 3967",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Free Wi-Fi",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 83 kg"
+          ],
+          "plane_and_crew_by": "Envoy Air as American Eagle"
+        }
+      ],
+      "total_duration": 91,
+      "carbon_emissions": {
+        "this_flight": 83000,
+        "typical_for_this_route": 78000,
+        "difference_percent": 6
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pCUVRNNU5qY2FDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIkFBIiwiMzk2NyJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 09:46"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 11:10"
+          },
+          "duration": 84,
+          "airplane": "Boeing 737",
+          "airline": "United",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+          "travel_class": "Economy",
+          "flight_number": "UA 2074",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Wi-Fi for a fee",
+            "In-seat power outlet",
+            "Stream media to your device",
+            "Carbon emissions estimate: 65 kg"
+          ]
+        }
+      ],
+      "total_duration": 84,
+      "carbon_emissions": {
+        "this_flight": 65000,
+        "typical_for_this_route": 78000,
+        "difference_percent": -17
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pWUVRJd056UWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIlVBIiwiMjA3NCJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 12:03"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 13:34"
+          },
+          "duration": 91,
+          "airplane": "Embraer 175",
+          "airline": "United",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+          "travel_class": "Economy",
+          "flight_number": "UA 6135",
+          "legroom": "31 in",
+          "extensions": [
+            "Average legroom (31 in)",
+            "Free Wi-Fi",
+            "In-seat power outlet",
+            "Stream media to your device",
+            "Carbon emissions estimate: 93 kg"
+          ],
+          "plane_and_crew_by": "Mesa Airlines DBA United Express"
+        }
+      ],
+      "total_duration": 91,
+      "carbon_emissions": {
+        "this_flight": 93000,
+        "typical_for_this_route": 78000,
+        "difference_percent": 19
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pWUVRZeE16VWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIlVBIiwiNjEzNSJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 16:10"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 17:44"
+          },
+          "duration": 94,
+          "airplane": "Canadair RJ 900",
+          "airline": "American",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+          "travel_class": "Economy",
+          "flight_number": "AA 5530",
+          "legroom": "31 in",
+          "extensions": [
+            "Average legroom (31 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 83 kg"
+          ],
+          "plane_and_crew_by": "PSA Airlines as American Eagle"
+        }
+      ],
+      "total_duration": 94,
+      "carbon_emissions": {
+        "this_flight": 83000,
+        "typical_for_this_route": 78000,
+        "difference_percent": 6
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pCUVRVMU16QWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIkFBIiwiNTUzMCJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 16:27"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 17:51"
+          },
+          "duration": 84,
+          "airplane": "Airbus A320",
+          "airline": "United",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+          "travel_class": "Economy",
+          "flight_number": "UA 2830",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 72 kg"
+          ]
+        }
+      ],
+      "total_duration": 84,
+      "carbon_emissions": {
+        "this_flight": 72000,
+        "typical_for_this_route": 78000,
+        "difference_percent": -8
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pWUVRJNE16QWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIlVBIiwiMjgzMCJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 18:28"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 19:58"
+          },
+          "duration": 90,
+          "airplane": "Boeing 737",
+          "airline": "United",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+          "travel_class": "Economy",
+          "flight_number": "UA 511",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "On-demand video",
+            "Carbon emissions estimate: 67 kg"
+          ]
+        }
+      ],
+      "total_duration": 90,
+      "carbon_emissions": {
+        "this_flight": 67000,
+        "typical_for_this_route": 78000,
+        "difference_percent": -14
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1ZWUVRVeE1Sb0xDUHlUQVJBQ0dnTlZVMFE0SEhEOGt3RT0iLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIlVBIiwiNTExIl1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 19:14"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 20:50"
+          },
+          "duration": 96,
+          "airplane": "Embraer 175",
+          "airline": "American",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+          "travel_class": "Economy",
+          "flight_number": "AA 3505",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Free Wi-Fi",
+            "In-seat power & USB outlets",
+            "Stream media to your device",
+            "Carbon emissions estimate: 83 kg"
+          ],
+          "plane_and_crew_by": "Envoy Air as American Eagle"
+        }
+      ],
+      "total_duration": 96,
+      "carbon_emissions": {
+        "this_flight": 83000,
+        "typical_for_this_route": 78000,
+        "difference_percent": 6
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pCUVRNMU1EVWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIkFBIiwiMzUwNSJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 20:20"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 21:47"
+          },
+          "duration": 87,
+          "airplane": "Boeing 737",
+          "airline": "United",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+          "travel_class": "Economy",
+          "flight_number": "UA 1949",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "On-demand video",
+            "Carbon emissions estimate: 67 kg"
+          ],
+          "often_delayed_by_over_30_min": true
+        }
+      ],
+      "total_duration": 87,
+      "carbon_emissions": {
+        "this_flight": 67000,
+        "typical_for_this_route": 78000,
+        "difference_percent": -14
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pWUVRFNU5Ea2FDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIlVBIiwiMTk0OSJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "George Bush Intercontinental Airport",
+            "id": "IAH",
+            "time": "2026-12-15 22:08"
+          },
+          "arrival_airport": {
+            "name": "Dallas Fort Worth International Airport",
+            "id": "DFW",
+            "time": "2026-12-15 23:30"
+          },
+          "duration": 82,
+          "airplane": "Embraer 175",
+          "airline": "United",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+          "travel_class": "Economy",
+          "flight_number": "UA 6113",
+          "legroom": "31 in",
+          "extensions": [
+            "Average legroom (31 in)",
+            "Free Wi-Fi",
+            "In-seat power outlet",
+            "Stream media to your device",
+            "Carbon emissions estimate: 93 kg"
+          ],
+          "plane_and_crew_by": "Mesa Airlines DBA United Express"
+        }
+      ],
+      "total_duration": 82,
+      "carbon_emissions": {
+        "this_flight": 93000,
+        "typical_for_this_route": 78000,
+        "difference_percent": 19
+      },
+      "price": 190,
+      "type": "One way",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/UA.png",
+      "extensions": [
+        "Checked baggage for a fee"
+      ],
+      "booking_token": "WyJDalJJYkVRM2JWUnhkVk5aU0dkQlFrNXZUa0ZDUnkwdExTMHRMWFozWW0xeE9DMXVNa0ZCUVVGQlIzSldWbVIzUjA5SVdITkJFZ1pWUVRZeE1UTWFDd2o4a3dFUUFob0RWVk5FT0J4dy9KTUIiLFtbIklBSCIsIjIwMjYtMTItMTUiLCJERlciLG51bGwsIlVBIiwiNjExMyJdXV0="
+    }
+  ],
+  "price_insights": {
+    "lowest_price": 190,
+    "price_level": "typical",
+    "typical_price_range": [
+      65,
+      225
+    ],
+    "price_history": [
+      [
+        1787115600,
+        99
+      ],
+      [
+        1787202000,
+        99
+      ],
+      [
+        1787288400,
+        99
+      ],
+      [
+        1787374800,
+        99
+      ],
+      [
+        1787461200,
+        99
+      ],
+      [
+        1787547600,
+        99
+      ],
+      [
+        1787634000,
+        99
+      ],
+      [
+        1787720400,
+        99
+      ],
+      [
+        1787806800,
+        99
+      ],
+      [
+        1787893200,
+        99
+      ],
+      [
+        1787979600,
+        142
+      ],
+      [
+        1788066000,
+        142
+      ],
+      [
+        1788152400,
+        99
+      ],
+      [
+        1788238800,
+        99
+      ],
+      [
+        1788325200,
+        99
+      ],
+      [
+        1788411600,
+        99
+      ],
+      [
+        1788498000,
+        99
+      ],
+      [
+        1788584400,
+        142
+      ],
+      [
+        1788670800,
+        142
+      ],
+      [
+        1788757200,
+        99
+      ],
+      [
+        1788843600,
+        99
+      ],
+      [
+        1788930000,
+        99
+      ],
+      [
+        1789016400,
+        99
+      ],
+      [
+        1789102800,
+        99
+      ],
+      [
+        1789189200,
+        142
+      ],
+      [
+        1789275600,
+        180
+      ],
+      [
+        1789362000,
+        114
+      ],
+      [
+        1789448400,
+        114
+      ],
+      [
+        1789534800,
+        114
+      ],
+      [
+        1789621200,
+        99
+      ],
+      [
+        1789707600,
+        99
+      ],
+      [
+        1789794000,
+        99
+      ],
+      [
+        1789880400,
+        99
+      ],
+      [
+        1789966800,
+        99
+      ],
+      [
+        1790053200,
+        99
+      ],
+      [
+        1790139600,
+        99
+      ],
+      [
+        1790226000,
+        99
+      ],
+      [
+        1790312400,
+        99
+      ],
+      [
+        1790398800,
+        99
+      ],
+      [
+        1790485200,
+        99
+      ],
+      [
+        1790571600,
+        99
+      ],
+      [
+        1790658000,
+        99
+      ],
+      [
+        1790744400,
+        99
+      ],
+      [
+        1790830800,
+        99
+      ],
+      [
+        1790917200,
+        99
+      ],
+      [
+        1791003600,
+        152
+      ],
+      [
+        1791090000,
+        180
+      ],
+      [
+        1791176400,
+        114
+      ],
+      [
+        1791262800,
+        114
+      ],
+      [
+        1791349200,
+        114
+      ],
+      [
+        1791435600,
+        99
+      ],
+      [
+        1791522000,
+        99
+      ],
+      [
+        1791608400,
+        99
+      ],
+      [
+        1791694800,
+        99
+      ],
+      [
+        1791781200,
+        99
+      ],
+      [
+        1791867600,
+        99
+      ],
+      [
+        1791954000,
+        99
+      ],
+      [
+        1792040400,
+        99
+      ],
+      [
+        1792126800,
+        133
+      ],
+      [
+        1792213200,
+        133
+      ],
+      [
+        1792299600,
+        190
+      ]
+    ]
+  },
+  "airports": [
+    {
+      "departure": [
+        {
+          "airport": {
+            "id": "IAH",
+            "name": "George Bush Intercontinental Airport"
+          },
+          "city": "Houston",
+          "country": "United States",
+          "country_code": "US",
+          "image": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRz_aR3EzoKfjEPwCej8qCyvWu66T9EG171Y9ey1vB16_s9_YVDC1kK_t1Sz1kmayNRX3_br6GHaXQB2w",
+          "thumbnail": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTJgsjp3FWA9KoFT7mGzSkSaSLpstcd5dLcH8nD_Pl107uGJg0jhuwJ0c1tPu1UhPLZZfhCHa047RMVmf92BbxfTHQazhW06yPuIJYSL08"
+        }
+      ],
+      "arrival": [
+        {
+          "airport": {
+            "id": "DFW",
+            "name": "Dallas Fort Worth International Airport"
+          },
+          "city": "Dallas",
+          "country": "United States",
+          "country_code": "US",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS61zSeEE0f0RSedvAIvzJKv1B7Tojcnx1pR5ipb9l389QDa2V23R4cRbmgVZVCgrVsZ6Ewme_WpDRgmw",
+          "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT4Hg7sSdARNWUKEIVKbquvgGkx76RuLbHy7uH51pecZu-z7-Wi9ya5fpf-YmM63--MKoWu7HUM3Q1O7mQoRBSlNeNSfgHP5Y2tO11niU"
+        }
+      ]
+    }
+  ]
+}
