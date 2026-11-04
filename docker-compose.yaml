@@ -21,6 +21,15 @@ services:
       - db
     environment:
       DATABASE_URL: postgresql://aggie:devpassword@db:5432/aggie_route
+      SERP_API_KEY: ${SERP_API_KEY:-}
+      GLOBAL_MIN_REQUEST_INTERVAL_SECONDS: ${GLOBAL_MIN_REQUEST_INTERVAL_SECONDS:-1}
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
 
 volumes:
   pgdata:

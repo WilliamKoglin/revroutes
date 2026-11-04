@@ -13,9 +13,12 @@ import pickle
 
 import torch
 
-from model import DelayNet
+try:  # Supports both `python backend/ml/predict.py` and package imports.
+    from .model import DelayNet
+except ImportError:
+    from model import DelayNet
 
-ARTIFACTS_DIR = "backend/ml/artifacts"
+ARTIFACTS_DIR = str(__import__("pathlib").Path(__file__).resolve().parent / "artifacts")
 
 
 class DelayPredictor:

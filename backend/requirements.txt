@@ -4,3 +4,4 @@ sqlalchemy
 psycopg[binary]==3.2.3
 numpy
 torch
+python-dotenv
