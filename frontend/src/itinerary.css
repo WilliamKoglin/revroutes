@@ -1,0 +1,28 @@
+.itinerary-card {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fff;
+}
+.itinerary-summary { display: flex; align-items: center; justify-content: space-between; }
+.itinerary-summary > div:first-child { display: grid; gap: 2px; }
+.itinerary-caption { color: #8a6b70; font-size: 7px; font-weight: 700; letter-spacing: 1.2px; }
+.itinerary-summary strong { color: var(--maroon); font: 800 17px 'Manrope', sans-serif; }
+.itinerary-summary small { color: #8b7a7d; font-size: 9px; }
+.itinerary-price { color: var(--maroon); font: 800 18px 'Manrope', sans-serif; }
+.itinerary-legs { display: grid; gap: 11px; margin: 16px 0 11px; }
+.itinerary-leg { display: grid; grid-template-columns: 44px minmax(22px, 1fr) 44px; align-items: center; gap: 5px; }
+.leg-time { display: grid; gap: 2px; }
+.leg-time strong { color: #351217; font: 700 11px 'Manrope', sans-serif; }
+.leg-time span { color: #8a7b7d; font-size: 8px; }
+.leg-time:last-of-type { text-align: right; }
+.leg-track { position: relative; border-top: 1px solid #c99ca4; text-align: center; color: #8d3443; }
+.leg-track i { position: absolute; top: -3px; left: 0; width: 5px; height: 5px; border-radius: 50%; background: #7a1e2d; }
+.leg-track small { display: block; margin-top: 5px; font-size: 6px; font-weight: 700; letter-spacing: .8px; }
+.leg-airline { grid-column: 1 / -1; color: #78696c; font-size: 8px; }
+.itinerary-meta { display: flex; justify-content: space-between; border-top: 1px solid #eee2e4; padding-top: 9px; color: #77686b; font-size: 8px; }
+.arrival-estimate { display: flex; align-items: center; justify-content: space-between; margin-top: 9px; padding: 9px; border-radius: 7px; background: #f5e9eb; color: #6b2835; font-size: 9px; }
+.arrival-estimate strong { color: var(--maroon); font: 700 12px 'Manrope', sans-serif; }
+.plan-flights { gap: 0; }
+.plan-head { min-height: 150px; }
+@media(max-width: 600px) { .plan-head { min-height: 0; } }
