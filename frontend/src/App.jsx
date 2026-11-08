@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const PLANS = [
   { code: 'CLL', name: 'Easterwood Airport', city: 'College Station', buffer: 30, bufferLabel: '30 min airport buffer' },
@@ -158,6 +158,19 @@ export default function App() {
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState(null);
   const [searchErrors, setSearchErrors] = useState([]);
+  const [usage, setUsage] = useState(null);
+
+  async function refreshUsage() {
+    try {
+      const response = await fetch('/api/usage');
+      if (!response.ok) throw new Error('Usage status unavailable');
+      setUsage(await response.json());
+    } catch {
+      setUsage(null);
+    }
+  }
+
+  useEffect(() => { refreshUsage(); }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -180,9 +193,11 @@ export default function App() {
       setStatus(failures
         ? `${3 - failures} of 3 plans loaded. ${failures} search${failures === 1 ? '' : 'es'} could not be completed.`
         : `Your address mapped to ${destinationCode} · ${data.destination_airport.name}, ${data.destination_airport.city}. Plans for ${new Date(`${travelDate}T12:00:00`).toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}.`);
+      refreshUsage();
     } catch (error) {
       setIsError(true);
       setStatus(error.message);
+      refreshUsage();
     } finally {
       setIsSearching(false);
     }
@@ -224,6 +239,11 @@ export default function App() {
             </div>
           </form>
           <p className="route-hint">We map your address to the closest airport in our airport directory, then compare CLL, IAH, and HOU. Your address is sent to SerpApi/Google Maps for lookup; Aggie Routes stores only the selected airport mapping. Airport arrival buffers: 30 minutes at CLL and 2 hours in Houston.</p>
+        </section>
+        <section className="usage-banner" aria-live="polite">
+          <strong>{usage ? `${usage.calls_used} of ${usage.calls_limit} shared API calls used` : 'API call allowance'}</strong>
+          <span>{usage ? `Renewal: ${usage.renews_on}` : 'Usage status loading…'}</span>
+          <p>This project has a limited number of paid API calls. Flight searches and Google Maps address lookups both use this shared allowance{usage?.calls_used >= usage?.calls_limit ? '; the allowance is currently used up.' : '.'}</p>
         </section>
         {status && <section className={`status${isError ? ' error' : ''}`} aria-live="polite">{status}</section>}
         {destinationAirport && <section className="mapped-airport">Nearest listed airport: <strong>{destinationAirport.code}</strong> · {destinationAirport.name}, {destinationAirport.city} ({destinationAirport.distance_km} km straight-line distance)</section>}

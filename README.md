@@ -16,10 +16,15 @@ Flight searches are cached in PostgreSQL by origin, destination, and travel date
 
 `flight_search_cache` contains normalized offers for the frontend, and `flight_search_responses` contains the complete provider JSON for each ping. On each flight request, departed offers are removed from both tables using Central time. Results sent to the frontend must also depart beyond the origin’s 30-minute CLL or two-hour Houston buffer.
 
+## Shared SerpApi allowance
+
+The project has a shared allowance of 200 SerpApi pings per renewal period. Both Google Flights searches and Google Maps address lookups count toward it; cached results do not. A ping counts once SerpApi returns an HTTP response, including provider error responses, because the request has reached the provider. Network failures with no provider response do not count. The counter starts at 16 calls, renews on November 18, 2026, and renews on the 18th of each following month. The frontend displays current usage and the renewal date, while `GET /api/usage` provides the same information as JSON.
+
 ## API
 
 - `POST /api/trip-plans` with `{"home_address":"...","travel_date":"2026-12-15"}`
 - `GET /api/flights?origin=CLL&destination=DFW&date=2026-12-15` (single-route API)
+- `GET /api/usage`
 - `GET /health` and `GET /health/db`
 
 `backend/ml/artifacts` contains the trained weights, categorical encoders, and metadata used for delay and recommended-buffer predictions. If an offer cannot be scored, flight search still succeeds and the delay estimate is omitted.

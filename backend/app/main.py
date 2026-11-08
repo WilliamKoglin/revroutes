@@ -9,6 +9,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import urlopen
+from urllib.error import HTTPError
 from zoneinfo import ZoneInfo
 
 from fastapi import FastAPI, HTTPException, Query
@@ -20,6 +21,14 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from dotenv import load_dotenv
 
 from app.db.session import engine
+from app.services.api_usage import (
+    ApiUsageLimitReached,
+    get_usage,
+    initialize_usage,
+    record_call,
+    release_call,
+    reserve_call,
+)
 from app.services.airport_lookup import nearest_airport
 from app.services.flight_leg import parse_flights
 
@@ -81,6 +90,7 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET"], a
 @app.on_event("startup")
 def create_tables() -> None:
     Base.metadata.create_all(bind=engine)
+    initialize_usage(engine)
     _purge_departed_flights(datetime.now(LOCAL_TIMEZONE))
 
 
@@ -93,6 +103,42 @@ def _api_key() -> str | None:
     return os.getenv("SERP_API_KEY") or os.getenv("SERPAPI_KEY")
 
 
+def _request_serp(params: str, unavailable_message: str, rejected_message: str) -> dict:
+    try:
+        reservation_id, _ = reserve_call(engine)
+    except ApiUsageLimitReached as exc:
+        raise HTTPException(
+            status_code=429,
+            detail="This project has used its 200 SerpApi calls for this period. The allowance renews on the date shown on the page.",
+        ) from exc
+
+    try:
+        try:
+            response_context = urlopen(f"https://serpapi.com/search.json?{params}", timeout=20)
+        except HTTPError as exc:
+            # HTTP errors still represent a request received by SerpApi and can
+            # consume the project's provider allowance.
+            record_call(engine, reservation_id)
+            raise HTTPException(
+                status_code=502,
+                detail=f"{unavailable_message} (provider HTTP {exc.code})",
+            ) from exc
+        with response_context as response:
+            # Count the ping before parsing or validating its result. A valid
+            # request can be billable even when it returns no map coordinates.
+            record_call(engine, reservation_id)
+            payload = json.loads(response.read())
+        if payload.get("error"):
+            raise HTTPException(status_code=502, detail=rejected_message)
+        return payload
+    except HTTPException:
+        release_call(engine, reservation_id)
+        raise
+    except Exception as exc:
+        release_call(engine, reservation_id)
+        raise HTTPException(status_code=502, detail=unavailable_message) from exc
+
+
 def _fetch_serp(origin: str, destination: str, travel_date: date) -> dict:
     key = _api_key()
     if not key:
@@ -100,16 +146,11 @@ def _fetch_serp(origin: str, destination: str, travel_date: date) -> dict:
     params = urlencode({"engine": "google_flights", "departure_id": origin, "arrival_id": destination,
                         "outbound_date": travel_date.isoformat(), "type": "2", "stops": "3",
                         "currency": "USD", "hl": "en", "gl": "us", "api_key": key})
-    try:
-        with urlopen(f"https://serpapi.com/search.json?{params}", timeout=20) as response:
-            payload = json.loads(response.read())
-        if payload.get("error"):
-            raise HTTPException(status_code=502, detail="Flight search provider rejected the request.")
-        return payload
-    except HTTPException:
-        raise
-    except Exception as exc:
-        raise HTTPException(status_code=502, detail="Flight search provider is temporarily unavailable.") from exc
+    return _request_serp(
+        params,
+        "Flight search provider is temporarily unavailable.",
+        "Flight search provider rejected the request.",
+    )
 
 def _fetch_address_coordinates(address: str) -> tuple[float, float]:
     key = _api_key()
@@ -117,30 +158,26 @@ def _fetch_address_coordinates(address: str) -> tuple[float, float]:
         raise HTTPException(status_code=503, detail="Address lookup is not configured. Set SERP_API_KEY in .env.")
     params = urlencode({"engine": "google_maps", "type": "search", "q": address,
                         "hl": "en", "gl": "us", "api_key": key})
-    try:
-        with urlopen(f"https://serpapi.com/search.json?{params}", timeout=20) as response:
-            payload = json.loads(response.read())
-        if payload.get("error"):
-            raise HTTPException(status_code=502, detail="Address lookup provider could not map that address.")
-        candidates = []
-        if isinstance(payload.get("place_results"), dict):
-            candidates.append(payload["place_results"])
-        candidates.extend(payload.get("local_results") or [])
-        for candidate in candidates:
-            coords = candidate.get("gps_coordinates") if isinstance(candidate, dict) else None
-            if not isinstance(coords, dict):
-                continue
-            try:
-                latitude, longitude = float(coords["latitude"]), float(coords["longitude"])
-            except (KeyError, TypeError, ValueError):
-                continue
-            if -90 <= latitude <= 90 and -180 <= longitude <= 180:
-                return latitude, longitude
-        raise HTTPException(status_code=422, detail="Could not locate that address. Enter a full street address, city, state, and ZIP code.")
-    except HTTPException:
-        raise
-    except Exception as exc:
-        raise HTTPException(status_code=502, detail="Address lookup provider is temporarily unavailable.") from exc
+    payload = _request_serp(
+        params,
+        "Address lookup provider is temporarily unavailable.",
+        "Address lookup provider could not map that address.",
+    )
+    candidates = []
+    if isinstance(payload.get("place_results"), dict):
+        candidates.append(payload["place_results"])
+    candidates.extend(payload.get("local_results") or [])
+    for candidate in candidates:
+        coords = candidate.get("gps_coordinates") if isinstance(candidate, dict) else None
+        if not isinstance(coords, dict):
+            continue
+        try:
+            latitude, longitude = float(coords["latitude"]), float(coords["longitude"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if -90 <= latitude <= 90 and -180 <= longitude <= 180:
+            return latitude, longitude
+    raise HTTPException(status_code=422, detail="Could not locate that address. Enter a full street address, city, state, and ZIP code.")
 
 def _address_airport(address: str) -> dict:
     normalized = " ".join(address.casefold().split())
@@ -192,6 +229,11 @@ def health_db():
         return {"status": "ok", "db": "connected"}
     except Exception:
         return {"status": "error", "db": "unavailable"}
+
+
+@app.get("/api/usage")
+def api_usage():
+    return get_usage(engine)
 
 
 @app.get("/api/flights")
