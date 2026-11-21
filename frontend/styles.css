@@ -22,3 +22,60 @@
 .error-message{color:#9a3931;background:#fbefeb;border-color:#edd1ca}
 @media(max-width:900px){.results{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-card:last-child{grid-column:1/-1}.plan-card:last-child .plan-flights{grid-template-columns:repeat(2,minmax(0,1fr))}.fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto}}
 @media(max-width:600px){.fields{grid-template-columns:1fr}.destination-field,.date-field,.search-button{grid-column:1}.results{grid-template-columns:1fr}.plan-card:last-child{grid-column:auto}.plan-card:last-child .plan-flights{grid-template-columns:1fr}.plan-head{min-height:0;padding-bottom:12px}}
+
+/* CLL to major hub search */
+.new-app .new-hero{height:290px}
+.new-hero .hero-copy{width:58%}
+.hero-stamp{position:absolute;right:7%;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:24px;color:#f2dfc8;font:700 11px 'Manrope';letter-spacing:1px}
+.hero-stamp span:first-child{display:grid;place-items:center;width:78px;height:78px;border:1px solid #d8b79e;border-radius:50%;font-size:17px;color:#fff}
+.hero-stamp i{font-size:28px;font-style:normal;color:#d5ab6d}
+.new-fields{display:grid;grid-template-columns:1.2fr 1.1fr 1.1fr auto;gap:12px;align-items:end}
+.new-search .destination-field{position:relative}
+.new-search .field>span{font-size:9px}
+.new-search .airport-input{height:49px}
+.new-search .airport-input input{font-size:12px}
+.new-search .search-button{height:49px;font-size:12px}
+.airport-suggestions{position:absolute;z-index:5;top:100%;left:0;right:0;margin-top:5px;background:white;border:1px solid var(--line);border-radius:9px;box-shadow:0 12px 28px #3721191c;overflow:hidden}
+.airport-suggestions button{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:11px 13px;background:#fff;border:0;border-bottom:1px solid #f1ece5;cursor:pointer;color:var(--ink)}
+.airport-suggestions button:hover{background:#faf5ec}
+.airport-suggestions button span{display:grid;gap:3px}
+.airport-suggestions button strong{font:700 12px 'Manrope';color:var(--maroon)}
+.airport-suggestions button small{font-size:10px;color:var(--muted)}
+.airport-suggestions button>b{font:800 12px 'Manrope';color:#9b7148}
+.airport-override{display:grid;grid-template-columns:auto 130px;gap:7px 12px;align-items:center;margin-top:17px}
+.airport-override label{font-size:10px;font-weight:700;color:#75685c}
+.airport-override input{height:34px;border:1px solid var(--line);border-radius:6px;padding:0 10px;font:600 11px 'DM Sans';text-transform:uppercase}
+.airport-override p{grid-column:1/-1;margin:0;color:#988d83;font-size:9px;line-height:1.5}
+.new-search .route-hint{line-height:1.55}
+.usage-banner{margin:18px 26px 0;padding:15px 17px;background:#f1e9dc;border:1px solid #e6dac8;border-radius:9px;display:grid;grid-template-columns:1fr auto;gap:5px 15px;color:#6d563f}
+.usage-banner strong{font:700 12px 'Manrope';color:var(--maroon)}
+.usage-banner>span{font-size:10px;align-self:center}
+.usage-banner p{grid-column:1/-1;margin:0;font-size:9px;color:#8b7a69}
+.flight-results{margin:22px 26px 0}
+.results-title{display:flex;align-items:end;justify-content:space-between;margin-bottom:12px}
+.results-title .eyebrow{margin:0 0 4px}
+.results-title h2{margin:0;color:var(--maroon);font:700 21px 'Manrope'}
+.results-title>span{color:#897e72;font-size:10px}
+.featured-results,.all-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.route-result{min-width:0;padding:15px;background:white;border:1px solid var(--line);border-radius:10px;box-shadow:0 4px 15px #37211908}
+.result-heading{display:flex;align-items:center;justify-content:space-between}
+.result-label{color:#997046;font-size:8px;font-weight:700;letter-spacing:1.2px}
+.result-heading strong{color:var(--maroon);font:800 17px 'Manrope'}
+.result-path{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin:17px 0 10px}
+.result-path>div:not(.path-line){display:grid;gap:3px}
+.result-path strong{color:#352b26;font:700 17px 'Manrope'}
+.result-path small{color:#94887e;font-size:9px}
+.destination-time{text-align:right}
+.path-line{position:relative;border-top:1px solid #d8c5b1;text-align:center}
+.path-line:before,.path-line:after{content:"";position:absolute;top:-3px;width:5px;height:5px;border-radius:50%;background:#8b5c3e}
+.path-line:before{left:0}.path-line:after{right:0}
+.path-line span{position:relative;top:5px;background:white;padding:0 7px;color:#96877a;font-size:8px}
+.result-detail{margin:12px 0 0;color:#86796e;font-size:9px}
+.result-legs{display:grid;gap:8px;margin-top:11px;padding-top:10px;border-top:1px solid #f0ebe5}
+.result-leg{display:grid;grid-template-columns:1fr auto;gap:3px 8px;color:#5f554d;font-size:9px}
+.result-leg span:nth-child(2){text-align:right;color:#897d73}
+.result-leg small{grid-column:1/-1;color:#9a8c80;font-size:8px}
+.all-results-title{margin:22px 0 9px;color:#59493b;font:700 13px 'Manrope'}
+.all-results{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:900px){.new-fields{grid-template-columns:1fr 1fr}.new-fields .search-button{grid-column:1/-1}.all-results{grid-template-columns:repeat(2,minmax(0,1fr))}.usage-banner{margin-left:0;margin-right:0}}
+@media(max-width:600px){.new-app .new-hero{height:285px}.new-hero .hero-copy{width:100%}.hero-stamp{right:5%;top:auto;bottom:20px;transform:none;gap:10px;opacity:.76}.hero-stamp span:first-child{width:44px;height:44px;font-size:12px}.hero-stamp i{font-size:20px}.new-fields{grid-template-columns:1fr}.new-fields .search-button{grid-column:1}.airport-override{grid-template-columns:1fr 110px}.featured-results,.all-results{grid-template-columns:1fr}.flight-results{margin-left:0;margin-right:0}.usage-banner{grid-template-columns:1fr}.usage-banner>span{grid-column:1}.result-leg{grid-template-columns:1fr}.result-leg span:nth-child(2){text-align:left}}

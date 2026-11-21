@@ -1,81 +1,67 @@
-"""Normalize SerpApi Google Flights offers and build model inputs per segment."""
-from datetime import datetime
-
-
-def _model_features(flight: dict, origin: str, destination: str) -> dict | None:
-    departure = flight.get("departure_airport", {})
-    flight_number = flight.get("flight_number", "")
-    dep_time = departure.get("time")
-    try:
-        dep_dt = datetime.strptime(dep_time, "%Y-%m-%d %H:%M")
-    except (TypeError, ValueError):
-        return None
-    return {
-        "Reporting_Airline": flight_number.split(" ")[0] if flight_number else "",
-        "Origin": origin,
-        "Dest": destination,
-        "Month": dep_dt.month,
-        "DayOfWeek": dep_dt.isoweekday(),
-        "DayofMonth": dep_dt.day,
-        "DepHour": dep_dt.hour,
-    }
+"""Normalize SerpApi Google Flights offers into compact itineraries."""
 
 
 def _parse_offer(offer: dict) -> dict | None:
     flights = offer.get("flights") or []
-    if not flights:
+    if not flights or len(flights) > 3:
         return None
     segments = []
     for flight in flights:
-        dep = flight.get("departure_airport", {})
-        arr = flight.get("arrival_airport", {})
-        features = _model_features(flight, dep.get("id"), arr.get("id"))
-        if not features:
+        dep = flight.get("departure_airport") or {}
+        arr = flight.get("arrival_airport") or {}
+        if not dep.get("id") or not arr.get("id") or not dep.get("time") or not arr.get("time"):
             return None
-        number = flight.get("flight_number", "")
         segments.append({
-            "carrier": features["Reporting_Airline"],
-            "airline": flight.get("airline") or features["Reporting_Airline"],
-            "flight_number": number,
+            "airline": flight.get("airline") or "Unknown airline",
+            "flight_number": flight.get("flight_number") or "",
             "aircraft": flight.get("airplane"),
             "airline_logo": flight.get("airline_logo"),
             "origin": dep.get("id"),
             "origin_name": dep.get("name"),
             "destination": arr.get("id"),
             "destination_name": arr.get("name"),
-            "departure_time": dep.get("time"),
-            "arrival_time": arr.get("time"),
-            "duration_min": flight.get("duration"),
-            "model_features": features,
+            "departure_time": dep["time"],
+            "arrival_time": arr["time"],
+            "duration_min": _as_int(flight.get("duration")),
         })
-
     first, last = segments[0], segments[-1]
     try:
-        scheduled_arrival = datetime.strptime(last["arrival_time"], "%Y-%m-%d %H:%M")
+        total_duration = int(offer.get("total_duration"))
     except (TypeError, ValueError):
-        return None
+        total_duration = sum(segment.get("duration_min") or 0 for segment in segments)
+    price = offer.get("price")
+    try:
+        price = float(price) if price is not None else None
+    except (TypeError, ValueError):
+        price = None
     return {
         "origin": first["origin"],
         "destination": last["destination"],
-        "dest": last["destination"],
-        "carrier": first["carrier"],
-        "flight_number": first["flight_number"],
-        "airline": first["airline"],
-        "aircraft": first["aircraft"],
-        "model_features": first["model_features"],
         "departure_time": first["departure_time"],
         "arrival_time": last["arrival_time"],
-        "estimated_arrival_time": scheduled_arrival.strftime("%Y-%m-%d %H:%M"),
-        "duration_min": offer.get("total_duration"),
-        "price_usd": offer.get("price"),
+        "duration_min": total_duration,
+        "price_usd": price,
         "stops": len(segments) - 1,
         "segments": segments,
-        "delay_prediction": None,
     }
 
 
+def _as_int(value) -> int | None:
+    try:
+        return int(value) if value is not None else None
+    except (TypeError, ValueError):
+        return None
+
+
 def parse_flights(response: dict) -> list[dict]:
-    """Parse direct and connecting offers, up to two transfers."""
-    offers = response.get("best_flights", []) + response.get("other_flights", [])
+    offers = []
+    for key in ("best_flights", "other_flights"):
+        value = response.get(key)
+        if isinstance(value, list):
+            offers.extend(value)
+    # Accept the alternate top-level shape as well, in case SerpApi changes
+    # the Google Flights payload or returns a generic results list.
+    if not offers and isinstance(response.get("flights"), list):
+        offers = response["flights"]
     parsed = [_parse_offer(offer) for offer in offers]
     return [offer for offer in parsed if offer is not None]

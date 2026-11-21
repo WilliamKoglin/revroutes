@@ -1,263 +1,168 @@
 import { useEffect, useState } from 'react';
 
-const PLANS = [
-  { code: 'CLL', name: 'Easterwood Airport', city: 'College Station', buffer: 30, bufferLabel: '30 min airport buffer' },
-  { code: 'IAH', name: 'George Bush Intercontinental', city: 'Houston', buffer: 120, bufferLabel: '2 hr Houston buffer' },
-  { code: 'HOU', name: 'William P. Hobby Airport', city: 'Houston', buffer: 120, bufferLabel: '2 hr Houston buffer' },
-];
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 
-function localDateString(date) {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+function localDateTime(date) {
+  const adjusted = new Date(date.getTime() - date.getTimezoneOffset() * 60_000);
+  return adjusted.toISOString().slice(0, 16);
 }
 
-function airportDateTime(value) {
-  // Provider times are airport-local wall-clock values without an offset.
-  return new Date(`${value.replace(' ', 'T')}:00Z`);
+function formatDateTime(value) {
+  if (!value) return '—';
+  const date = new Date(`${value.replace(' ', 'T')}:00Z`);
+  return new Intl.DateTimeFormat(undefined, { timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(date);
 }
 
-function clock(date) {
-  const hour = date.getUTCHours();
-  return `${hour % 12 || 12}:${String(date.getUTCMinutes()).padStart(2, '0')} ${hour < 12 ? 'AM' : 'PM'}`;
+function formatTime(value) {
+  if (!value) return '—';
+  const date = new Date(`${value.replace(' ', 'T')}:00Z`);
+  return new Intl.DateTimeFormat(undefined, { timeZone: 'UTC', hour: 'numeric', minute: '2-digit' }).format(date);
 }
 
-async function getTripPlans(homeAddress, travelDate) {
-  const response = await fetch('/api/trip-plans', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ home_address: homeAddress, travel_date: travelDate }),
-  });
+async function jsonRequest(url, options) {
+  const response = await fetch(`${API_BASE_URL}${url}`, options);
   let data;
   try { data = await response.json(); }
-  catch { throw new Error(`Trip planner returned a non-JSON response (HTTP ${response.status}).`); }
-  if (!response.ok) throw new Error(data.detail || 'Could not build trip plans.');
-  if (!data.destination_airport?.code || !Array.isArray(data.routes)) {
-    throw new Error('Trip planner response did not include an airport mapping and route list.');
-  }
+  catch { throw new Error(`The server returned an invalid response (HTTP ${response.status}).`); }
+  if (!response.ok) throw new Error(data.detail || 'The request failed.');
   return data;
 }
 
-function PlanCard({ recommendation, index, errors, destination }) {
-  const { kind, title, subtitle, flight, note } = recommendation;
-  return (
-    <article className="plan-card">
-      <div className="plan-head">
-        <span className="plan-number">PLAN {String(index + 1).padStart(2, '0')}</span>
-        <h3>{title}</h3>
-        <p>{subtitle}</p>
-        <span className="buffer-pill">{kind === 'direct' ? 'One flight · no transfers' : kind === 'fastest' ? 'Ranked by estimated arrival' : 'Connecting · up to 2 transfers'}</span>
-      </div>
-      <div className="plan-flights">
-        {flight ? <Itinerary flight={flight} note={note} /> : <div className="plan-message">{kind === 'direct' ? `No single-flight option to ${destination} was found for this date.` : kind === 'fastest' ? `No flight options to ${destination} were found for this date.` : `No itinerary with one or two transfers to ${destination} was found for this date.`}</div>}
-        {errors.length > 0 && <div className="cache-note">Some airport searches could not be completed: {errors.join(', ')}</div>}
-      </div>
-    </article>
-  );
-}
-
-function Itinerary({ flight, note }) {
-  const originPlan = PLANS.find(plan => plan.code === flight.origin);
-  const firstDeparture = airportDateTime(flight.departure_time);
-  const estimatedArrival = airportDateTime(flight.estimated_arrival_time || flight.arrival_time);
-  const leaveForAirport = new Date(firstDeparture.getTime() - (originPlan?.buffer ?? 30) * 60_000);
-  return (
-    <article className="itinerary-card">
-      <div className="itinerary-summary">
-        <div><span className="itinerary-caption">DEPART FROM</span><strong>{flight.origin}</strong><small>{originPlan?.city || flight.origin}</small></div>
-        <div className="itinerary-price">${flight.price_usd ?? '—'}</div>
-      </div>
-      <div className="itinerary-legs">
-        {flight.segments.map((segment, index) => (
-          <div className="itinerary-leg" key={`${segment.flight_number}-${index}`}>
-            <div className="leg-time"><strong>{clock(airportDateTime(segment.departure_time))}</strong><span>{segment.origin}</span></div>
-            <div className="leg-track"><i />{index < flight.segments.length - 1 && <small>CONNECT</small>}</div>
-            <div className="leg-time"><strong>{clock(airportDateTime(segment.arrival_time))}</strong><span>{segment.destination}</span></div>
-            <div className="leg-airline">{segment.airline} · {segment.flight_number}</div>
-          </div>
-        ))}
-      </div>
-      {(flight.connections || []).filter(connection => connection.risky).map((connection, index) => (
-        <div className="connection-risk" key={`${connection.airport}-${index}`} role="status">
-          <span className="risk-icon" aria-hidden="true">⚠</span>
-          <div><strong>RISKY CONNECTION</strong>
-            <p>{connection.layover_minutes} min at {connection.airport}, below the model’s P90 buffer of {connection.p90_buffer_minutes} min. Google Flights shows the scheduled connection as possible, but our P90 buffer model flags it as risky.</p>
-          </div>
-        </div>
-      ))}
-      <div className="itinerary-meta">
-        <span>{flight.stops === 0 ? 'Nonstop' : `${flight.stops} transfer${flight.stops === 1 ? '' : 's'}`}</span>
-        <span>{flight.duration_min} min total</span>
-      </div>
-      <div className="leave-time">
-        <span>Leave College Station by</span>
-        <strong>{clock(leaveForAirport)}</strong>
-        <small>{originPlan?.bufferLabel ?? '30 min airport buffer'} before departure</small>
-      </div>
-      <div className="arrival-estimate">
-        <span>{flight.delay_prediction ? 'Estimated arrival' : 'Scheduled arrival'}</span>
-        <strong>{clock(estimatedArrival)}</strong>
-      </div>
-      {flight.delay_prediction && <div className="prediction">
-        ◷ Estimated delay <strong>{flight.delay_prediction.predicted_delay_min} min</strong> · recommended delay buffer <strong>{flight.delay_prediction.recommended_buffer_min} min</strong>
-      </div>}
-      {!flight.delay_prediction && <div className="cache-note">Delay prediction unavailable for this itinerary.</div>}
-      {note && <div className="cache-note">{note}</div>}
-      {flight.cached && <div className="cache-note">⚡ Saved flight data · {new Date(flight.cached_at).toLocaleString()}</div>}
-    </article>
-  );
-}
-
-function priceOf(flight) {
-  const price = Number(flight.price_usd);
-  return Number.isFinite(price) ? price : Number.POSITIVE_INFINITY;
-}
-
-function estimateOf(flight) {
-  return airportDateTime(flight.estimated_arrival_time || flight.arrival_time).getTime();
-}
-
-function recommend(searchResults) {
-  const flights = searchResults.flatMap(result => result.value
-    ? result.value.flights.map(flight => ({ ...flight, cached: result.value.cached, cached_at: result.value.cached_at }))
-    : []);
-  const direct = flights.filter(flight => flight.stops === 0).sort((a, b) => priceOf(a) - priceOf(b) || estimateOf(a) - estimateOf(b))[0] ?? null;
-  const earliest = [...flights].sort((a, b) => estimateOf(a) - estimateOf(b) || priceOf(a) - priceOf(b))[0] ?? null;
-  const connecting = flights.filter(flight => flight.stops > 0 && flight.stops <= 2)
-    .sort((a, b) => priceOf(a) - priceOf(b) || a.stops - b.stops || estimateOf(a) - estimateOf(b))[0] ?? null;
-  const bounded = connecting ?? (flights.filter(flight => flight.stops <= 2)
-    .sort((a, b) => priceOf(a) - priceOf(b) || a.stops - b.stops || estimateOf(a) - estimateOf(b))[0] ?? null);
-  return [
-    { kind: 'direct', title: 'One flight total', subtitle: 'Lowest fare among nonstop options', flight: direct },
-    { kind: 'fastest', title: 'Earliest estimated arrival', subtitle: earliest?.delay_prediction ? 'Scheduled arrival plus model-predicted segment delays' : 'Earliest scheduled arrival; delay prediction unavailable', flight: earliest },
-    { kind: 'connections', title: 'Lowest fare · up to 2 transfers', subtitle: connecting ? 'Cheapest connecting itinerary found' : 'No connecting itinerary found; showing the cheapest eligible flight', flight: bounded },
-  ];
-}
-
-function RouteIllustration() {
-  return (
-    <div className="route-art" aria-hidden="true">
-      <div className="sun" />
-      <svg viewBox="0 0 520 235" fill="none">
-        <path d="M26 178C117 118 174 207 264 137S411 42 491 77" stroke="white" strokeOpacity=".64" strokeWidth="2" strokeDasharray="6 8" />
-        <circle cx="26" cy="178" r="7" fill="#fff" /><circle cx="264" cy="137" r="7" fill="#fff" /><circle cx="491" cy="77" r="7" fill="#fff" />
-        <path d="m235 131 15-11 19 5-13 8 1 13-5 3-5-13-12-1Z" fill="white" />
-      </svg>
-      <div className="airport-label a">CLL <small>COLLEGE STATION</small></div>
-      <div className="airport-label b">HOU <small>HOUSTON</small></div>
-      <div className="airport-label c">HOME <small>YOUR NEXT STOP</small></div>
+function Itinerary({ flight, label }) {
+  return <article className="route-result">
+    <div className="result-heading"><span className="result-label">{label}</span><strong>{flight.price_usd == null ? 'Fare unavailable' : `$${Math.round(flight.price_usd)}`}</strong></div>
+    <div className="result-path">
+      <div><strong>{formatTime(flight.departure_time)}</strong><small>CLL</small></div>
+      <div className="path-line"><span>{flight.stops === 0 ? 'Nonstop' : `${flight.stops} connection${flight.stops === 1 ? '' : 's'}`}</span></div>
+      <div className="destination-time"><strong>{formatTime(flight.arrival_time)}</strong><small>{flight.destination}</small></div>
     </div>
-  );
+    <p className="result-detail">{flight.segments.map(segment => `${segment.airline} ${segment.flight_number}`.trim()).join(' · ')} · {Math.floor(flight.duration_min / 60)}h {flight.duration_min % 60}m</p>
+    <div className="result-legs">{flight.segments.map((segment, index) => <div className="result-leg" key={`${segment.flight_number}-${index}`}>
+      <span>{index + 1}. {segment.origin} → {segment.destination}</span>
+      <span>{formatDateTime(segment.departure_time)} – {formatDateTime(segment.arrival_time)}</span>
+      <small>{segment.airline} {segment.flight_number}</small>
+    </div>)}</div>
+  </article>;
 }
 
 export default function App() {
-  const today = localDateString(new Date());
-  const [homeAddress, setHomeAddress] = useState('');
-  const [destinationAirport, setDestinationAirport] = useState(null);
-  const [travelDate, setTravelDate] = useState(today);
-  const [status, setStatus] = useState('');
-  const [isError, setIsError] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [results, setResults] = useState(null);
-  const [searchErrors, setSearchErrors] = useState([]);
+  const now = new Date();
+  const earliestDefault = localDateTime(new Date(now.getTime() + 24 * 60 * 60_000));
+  const arrivalDefault = localDateTime(new Date(now.getTime() + 48 * 60 * 60_000));
+  const [destinationText, setDestinationText] = useState('');
+  const [selectedAirport, setSelectedAirport] = useState(null);
+  const [airportCode, setAirportCode] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [earliestDeparture, setEarliestDeparture] = useState(earliestDefault);
+  const [arriveBy, setArriveBy] = useState(arrivalDefault);
   const [usage, setUsage] = useState(null);
+  const [results, setResults] = useState(null);
+  const [status, setStatus] = useState('');
+  const [error, setError] = useState(false);
+  const [searching, setSearching] = useState(false);
 
-  async function refreshUsage() {
-    try {
-      const response = await fetch('/api/usage');
-      if (!response.ok) throw new Error('Usage status unavailable');
-      setUsage(await response.json());
-    } catch {
-      setUsage(null);
-    }
+  useEffect(() => {
+    jsonRequest('/api/usage').then(setUsage).catch(() => setUsage(null));
+  }, []);
+
+  useEffect(() => {
+    if (airportCode.trim() || selectedAirport || destinationText.trim().length < 2) { setSuggestions([]); return undefined; }
+    const timer = setTimeout(() => {
+      jsonRequest(`/api/airports?q=${encodeURIComponent(destinationText.trim())}`)
+        .then(data => setSuggestions(data.airports || []))
+        .catch(() => setSuggestions([]));
+    }, 180);
+    return () => clearTimeout(timer);
+  }, [destinationText, airportCode, selectedAirport]);
+
+  function chooseAirport(airport) {
+    setSelectedAirport(airport);
+    setDestinationText(`${airport.city}, ${airport.state}`);
+    setSuggestions([]);
   }
 
-  useEffect(() => { refreshUsage(); }, []);
+  async function resolveDestination() {
+    const code = airportCode.trim().toUpperCase();
+    if (code) return /^[A-Z]{3}$/.test(code) ? { code, city: 'Custom airport', state: '', airport: 'IATA code override' } : null;
+    if (selectedAirport) return selectedAirport;
+    const query = destinationText.trim();
+    if (query.length < 2) return null;
+    const data = await jsonRequest(`/api/airports?q=${encodeURIComponent(query)}`);
+    const matches = data.airports || [];
+    setSuggestions(matches);
+    const [best, next] = matches;
+    const clearBestMatch = best?.match_score >= 0.78
+      && (!next || best.match_score - next.match_score >= 0.08);
+    if (!clearBestMatch) return null;
+    chooseAirport(best);
+    return best;
+  }
+
+  async function refreshUsage() {
+    try { setUsage(await jsonRequest('/api/usage')); } catch { /* Keep the last known usage visible. */ }
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setError(false);
     setResults(null);
-    setDestinationAirport(null);
-    setSearchErrors([]);
-    setIsError(false);
-    setStatus('Mapping your address to the nearest airport, then finding flight plans…');
-    setIsSearching(true);
+    setSearching(true);
+    setStatus('Matching your destination…');
     try {
-      const data = await getTripPlans(homeAddress.trim(), travelDate);
-      const destinationCode = data.destination_airport.code;
-      setDestinationAirport(data.destination_airport);
-      const plansResults = data.routes.map(route => route.error
-        ? { error: new Error(`${route.origin}: ${route.error}`) }
-        : { value: route });
-      setResults(recommend(plansResults));
-      const failures = plansResults.filter(item => item.error).length;
-      setSearchErrors(plansResults.flatMap(item => item.error ? [item.error.message] : []));
-      setStatus(failures
-        ? `${3 - failures} of 3 plans loaded. ${failures} search${failures === 1 ? '' : 'es'} could not be completed.`
-        : `Your address mapped to ${destinationCode} · ${data.destination_airport.name}, ${data.destination_airport.city}. Plans for ${new Date(`${travelDate}T12:00:00`).toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}.`);
-      refreshUsage();
-    } catch (error) {
-      setIsError(true);
-      setStatus(error.message);
-      refreshUsage();
+      const destination = await resolveDestination();
+      if (!destination) throw new Error('Choose a suggested city and state, or enter a valid three-letter IATA code.');
+      setStatus('Searching flights from College Station…');
+      const data = await jsonRequest('/api/flights/search', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ destination: destination.code, earliest_departure: earliestDeparture, arrive_by: arriveBy }),
+      });
+      setResults(data);
+      setStatus(data.results.length
+        ? `${data.results.length} itinerary${data.results.length === 1 ? '' : 's'} match your time window${data.cached ? ' · served from cache' : ''}.`
+        : 'No itineraries matched that departure and arrival window. Try a later arrival deadline.');
+    } catch (requestError) {
+      setError(true);
+      setStatus(requestError.message);
     } finally {
-      setIsSearching(false);
+      setSearching(false);
+      refreshUsage();
     }
   }
 
-  return (
-    <>
-      <header className="topbar">
-        <a className="brand" href="/"><span className="brand-mark">A</span><span>Aggie Routes<small>GET HOME, THE SMART WAY</small></span></a>
-        <div className="top-note"><span className="pulse" /> BUILT FOR AGGIES</div>
-      </header>
-      <main>
-        <section className="hero">
-          <div className="hero-copy">
-            <p className="eyebrow">YOUR JOURNEY STARTS HERE</p>
-            <h1>Three ways home<br />from <em>Aggie land.</em></h1>
-            <p className="lede">Compare flights from College Station and both Houston airports. We’ll account for the time you need to get to each airport.</p>
+  const shownResults = results?.results || [];
+  const appSearchesRemaining = usage
+    ? Math.min(usage.calls_remaining, usage.provider?.searches_remaining ?? usage.calls_remaining)
+    : null;
+  const sameFeatured = results?.cheapest && results?.quickest
+    && results.cheapest.departure_time === results.quickest.departure_time
+    && results.cheapest.arrival_time === results.quickest.arrival_time
+    && results.cheapest.price_usd === results.quickest.price_usd;
+  return <>
+    <header className="topbar"><a className="brand" href="/"><span className="brand-mark">A</span><span>Aggie Routes<small>FLIGHTS FROM AGGIELAND</small></span></a><div className="top-note"><span className="pulse" /> DEPARTING FROM CLL</div></header>
+    <main className="new-app">
+      <section className="hero new-hero"><div className="hero-copy"><p className="eyebrow">START IN COLLEGE STATION</p><h1>Find your way<br />to <em>what’s next.</em></h1><p className="lede">Compare fares and arrival times from Easterwood Airport to the country’s major airport hubs.</p></div><div className="hero-stamp"><span>CLL</span><i>→</i><span>YOUR NEXT STOP</span></div></section>
+      <section className="search-card new-search">
+        <div className="card-heading"><div><p className="eyebrow">FLIGHT FINDER</p><h2>Where are you headed?</h2></div><span className="direct-tag">UP TO 3 FLIGHT LEGS</span></div>
+        <form onSubmit={handleSubmit}>
+          <div className="new-fields">
+            <label className="field destination-field"><span>DESTINATION CITY AND STATE</span><div className="airport-input"><b>⌖</b><input value={destinationText} onChange={event => { setDestinationText(event.target.value); setSelectedAirport(null); setAirportCode(''); }} onBlur={() => { resolveDestination().catch(() => {}); }} placeholder="e.g. Houston, TX" autoComplete="off" required /></div>
+              {suggestions.length > 0 && <div className="airport-suggestions" role="listbox">{suggestions.map(airport => <button type="button" role="option" key={airport.code} onMouseDown={event => event.preventDefault()} onClick={() => chooseAirport(airport)}><span><strong>{airport.city}, {airport.state}</strong><small>{airport.airport}</small></span><b>{airport.code}</b></button>)}</div>}
+            </label>
+            <label className="field"><span>EARLIEST CLL DEPARTURE · CENTRAL TIME</span><div className="airport-input"><b>▦</b><input type="datetime-local" value={earliestDeparture} min={localDateTime(now).slice(0, 16)} onChange={event => setEarliestDeparture(event.target.value)} required /></div></label>
+            <label className="field"><span>ARRIVE BY · DESTINATION LOCAL TIME</span><div className="airport-input"><b>◷</b><input type="datetime-local" value={arriveBy} min={earliestDeparture} onChange={event => setArriveBy(event.target.value)} required /></div></label>
+            <button className="search-button" type="submit" disabled={searching}><span>{searching ? 'Searching…' : 'Find flights'}</span><b>↗</b></button>
           </div>
-          <RouteIllustration />
-        </section>
-        <section className="search-card">
-          <div className="card-heading">
-            <div><p className="eyebrow">FLIGHT FINDER</p><h2>Plan your trip home</h2></div>
-            <span className="direct-tag">✦ LIVE FLIGHT OPTIONS</span>
-          </div>
-          <form id="search-form" onSubmit={handleSubmit}>
-            <div className="fields">
-              <label className="field destination-field">
-                <span>HOME ADDRESS / WHERE YOU'RE GOING</span>
-                <div className="airport-input"><b>⌂</b><input value={homeAddress} onChange={event => setHomeAddress(event.target.value)} placeholder="Street, city, state, ZIP" required minLength="8" maxLength="300" autoComplete="street-address" /></div>
-              </label>
-              <label className="field date-field">
-                <span>DEPARTURE DATE</span>
-                <div className="airport-input"><b>▦</b><input type="date" value={travelDate} min={today} onChange={event => setTravelDate(event.target.value)} required /></div>
-              </label>
-              <button className="search-button" type="submit" disabled={isSearching}>
-                <span>{isSearching ? 'Finding flights…' : 'Compare 3 plans'}</span><b>↗</b>
-              </button>
-            </div>
-          </form>
-          <p className="route-hint">We map your address to the closest airport in our airport directory, then compare CLL, IAH, and HOU. Your address is sent to SerpApi/Google Maps for lookup; Aggie Routes stores only the selected airport mapping. Airport arrival buffers: 30 minutes at CLL and 2 hours in Houston.</p>
-        </section>
-        <section className="usage-banner" aria-live="polite">
-          <strong>{usage ? `${usage.calls_used} of ${usage.calls_limit} shared API calls used` : 'API call allowance'}</strong>
-          <span>{usage ? `Renewal: ${usage.renews_on}` : 'Usage status loading…'}</span>
-          <p>This project has a limited number of paid API calls. Flight searches and Google Maps address lookups both use this shared allowance{usage?.calls_used >= usage?.calls_limit ? '; the allowance is currently used up.' : '.'}</p>
-        </section>
-        {status && <section className={`status${isError ? ' error' : ''}`} aria-live="polite">{status}</section>}
-        {destinationAirport && <section className="mapped-airport">Nearest listed airport: <strong>{destinationAirport.code}</strong> · {destinationAirport.name}, {destinationAirport.city} ({destinationAirport.distance_km} km straight-line distance)</section>}
-        {results && <section className="results" aria-live="polite">
-          {results.map((recommendation, index) => <PlanCard key={recommendation.kind} recommendation={recommendation} index={index} errors={searchErrors} destination={destinationAirport?.code || ''} />)}
-        </section>}
-        <section className="how">
-          <div><p className="eyebrow">A BETTER WAY HOME</p><h2>Less guessing.<br /><em>More home time.</em></h2></div>
-          <div className="benefit"><span>01</span><h3>Three airport choices</h3><p>See the best options from Easterwood and both Houston airports.</p></div>
-          <div className="benefit"><span>02</span><h3>Time to get there</h3><p>Each plan includes the airport arrival buffer you asked for.</p></div>
-          <div className="benefit"><span>03</span><h3>Delay aware</h3><p>Use the model’s predicted delay and recommended buffer to compare flights.</p></div>
-        </section>
-        <footer><span>AGGIE ROUTES · COLLEGE STATION, TEXAS</span></footer>
-      </main>
-    </>
-  );
+        </form>
+        <div className="airport-override"><label htmlFor="airport-code">Use a different airport code (optional)</label><input id="airport-code" value={airportCode} onChange={event => setAirportCode(event.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3))} placeholder="IATA, e.g. AUS" maxLength={3} /><p>Find the three-letter IATA code on an airline ticket or an airport’s website. City suggestions choose a major hub; small regional airports are left out.</p></div>
+        <p className="route-hint">We search from College Station’s Easterwood Airport (CLL), allow up to two connections, and show flights that meet your exact time window. Flight times are local to each airport.</p>
+      </section>
+      <section className="usage-banner" aria-live="polite"><strong>{appSearchesRemaining != null ? `${appSearchesRemaining.toLocaleString()} of 200 app searches remaining` : '200 app searches per month'}</strong><span>{usage ? `${usage.calls_used} of ${usage.calls_limit} app searches used${usage.provider?.renews_on ? ` · renews ${usage.provider.renews_on}` : ''}` : 'App usage status loading…'}</span><p>{usage?.provider ? `SerpApi account balance: ${usage.provider.searches_remaining?.toLocaleString() ?? 'unavailable'} searches remaining. The app caps its own searches at 200; cached results do not use a search.` : 'The app caps successful uncached SerpApi searches at 200 per monthly cycle. Cached results do not use a search.'}</p></section>
+      {status && <section className={`status${error ? ' error' : ''}`} aria-live="polite">{status}</section>}
+      {results && <section className="flight-results"><div className="results-title"><div><p className="eyebrow">{results.origin} → {results.destination}</p><h2>Matching flights</h2></div><span>{shownResults.length} itineraries</span></div>
+        <div className="featured-results">{results.cheapest && sameFeatured ? <Itinerary flight={results.cheapest} label="CHEAPEST · QUICKEST" /> : <>{results.cheapest && <Itinerary flight={results.cheapest} label="CHEAPEST" />}{results.quickest && <Itinerary flight={results.quickest} label="QUICKEST" />}</>}</div>
+        {shownResults.length > 0 && <><h3 className="all-results-title">All matching itineraries</h3><div className="all-results">{shownResults.map((flight, index) => <Itinerary key={`${flight.departure_time}-${flight.arrival_time}-${index}`} flight={flight} label={`OPTION ${String(index + 1).padStart(2, '0')}`} />)}</div></>}
+      </section>}
+      <footer><span>AGGIE ROUTES · COLLEGE STATION, TEXAS</span></footer>
+    </main>
+  </>;
 }

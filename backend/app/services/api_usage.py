@@ -1,4 +1,8 @@
-"""Shared SerpApi call allowance and successful-call counter."""
+"""Shared SerpApi search allowance for every engine used by this app.
+
+Successful Google Flights, Google Maps, and other SerpApi engine searches all
+consume the same monthly allowance and must use this reservation/counter.
+"""
 from __future__ import annotations
 
 from datetime import date, datetime, timedelta, timezone
@@ -82,7 +86,7 @@ def reserve_call(engine) -> tuple[str, date]:
 
 
 def record_call(engine, reservation_id: str) -> None:
-    """Count a provider ping once SerpApi has returned an HTTP response."""
+    """Count any SerpApi engine search only after a successful response."""
     with engine.begin() as conn:
         reservation_renewal = conn.execute(select(reservation_table.c.renews_on)
                                            .where(reservation_table.c.reservation_id == reservation_id)
